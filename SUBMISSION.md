@@ -2,27 +2,26 @@
 
 <!-- Fill in every section. The AI Jury studies this file together with the code, the Build Report, the presentation and the Stand's interface. Accepted languages: English, Kazakh, Russian. These hint comments may be deleted. -->
 
+
 ## Concept
 
-<!-- Written by the Team before the code: your own choice, a few sentences per answer. Everything else in the Submission follows from it. -->
 
-**Enterprise:** <!-- Which mining enterprise, or which part of it, the twin represents. -->
+**Enterprise:** OilGuard AI — a digital twin of a fictional onshore oil production field inspired by oil-producing facilities in western Kazakhstan. The model focuses on production wells, pumping equipment, pipelines, storage tanks and industrial safety monitoring.
 
-**Users:** <!-- Who uses the twin. -->
+**Users:** Oil field operators, production engineers, maintenance teams and industrial safety specialists.
 
-**Decision:** <!-- Which decision the twin helps them make. -->
+**Decision:** The digital twin helps operators decide when to reduce production, stop potentially dangerous equipment, inspect a pipeline or schedule preventive maintenance. It identifies abnormal pressure, temperature, vibration and flow conditions, estimates operational risk and compares possible corrective actions.
 
-**Why this choice:** <!-- Why this enterprise, these users and this decision. -->
+**Why this choice:** Oil and gas production involves interconnected equipment where failures may cause environmental damage, production losses and safety incidents. A digital twin makes these relationships visible and allows operators to test emergency scenarios without endangering real equipment. OilGuard AI combines simulation, operational monitoring and explainable risk assessment to support safer decisions.
 
-**Real or fictional:** <!-- A real object: name it and give the sources of its numbers. A fictional one: which real objects it resembles and where its numbers come from. A real object with sourced numbers scores higher. -->
-
+**Real or fictional:** The field is fictional and inspired by onshore oil production facilities in Kazakhstan, including the general operating characteristics of mature oil fields in the Mangystau region. All initial measurements and operating conditions are synthetic. Numerical parameters will be documented as engineering assumptions or supported by publicly available technical references where possible. The project does not claim access to confidential field data.
 ## Team
 
 <!-- GitHub usernames of the Participants. Other personal data are not required: the repository becomes public after the Freeze (Rules, section 15). -->
 
 | GitHub |
 |---|
-|  |
+| эрасылтургенгул |
 
 ## Mine
 
