@@ -25,34 +25,118 @@
 
 ## Mine
 
-<!-- Which part of a mining enterprise the Submission represents (open pit, underground mine, processing plant…), which objects are twins in OpenEgiz, how they are related, and where they are defined in the code. -->
+OilGuard AI represents a fictional onshore oil production field in western Kazakhstan.
+
+The digital twin model contains four objects:
+
+- **oilfield-01:** Parent object representing the oil field.
+- **WELL-01:** Production well with pressure, temperature and vibration monitoring.
+- **WELL-02:** Production well with a simulated abnormal-pressure incident.
+- **WELL-03:** Production well operating under normal conditions.
+
+All three wells are linked to the parent oil field through the `_parents` attribute.
+
+Twin definitions: `oilguard_twins.json`.
+
+Twin generation: `create_oilguard_twins.py`.
+
+Simulation: `oilguard_simulator.py`.
+
+MQTT telemetry preparation: `oilguard_mqtt.py`.
+
+The twins are defined locally but have not yet been verified on a running OpenEgiz Stand.
 
 ## Modules and What-if Scenarios
 
-<!-- Modules: functions on top of the twin, from the Mine Map or your own. What-if Scenarios: changes of an operating condition that can be run on the Stand without changing the code (close a road, stop equipment…). Only what works on the Stand is taken into account. -->
+OilGuard AI currently provides local simulation and rule-based safety monitoring.
 
 | Module or What-if Scenario | What it does | How to see it on the Stand | How to undo it (scenarios) |
 |---|---|---|---|
-|  |  |  |  |
+| Well monitoring | Simulates pressure, temperature and vibration for three production wells. | Not yet deployed; local CSV and chart are available. | Not applicable |
+| Safety detection | Assigns NORMAL or DANGER based on defined sensor thresholds. | Verified locally using MQTT dry-run output. | Not applicable |
+| High-pressure incident | Simulates an abnormal operating period for WELL-02 between minutes 70 and 90. | Visible in oilguard_chart.png; not yet controllable on the Stand. | Regenerate the baseline simulation |
+
+Current detection thresholds:
+- Pressure greater than 80 bar.
+- Temperature greater than 90 degrees Celsius.
+- Vibration greater than 7 mm/s.
+
+These thresholds are illustrative simulation assumptions, not certified industrial safety limits.
+
+Interactive What-if controls on the OpenEgiz Stand are planned but not yet implemented.
 
 ## What works and what does not
 
-<!-- What has been verified, what is unfinished, which bugs are known. -->
+### Verified locally
+- Python simulation generates 360 telemetry records for three wells.
+- The simulation includes 21 DANGER records for WELL-02.
+- Pressure monitoring chart is generated successfully.
+- Four digital twin definitions are generated in JSON.
+- MQTT messages follow the Ditto modify-features structure.
+- NORMAL and DANGER messages were verified using dry-run mode.
+
+### Not yet verified
+- Registration of the twins in a running OpenEgiz Stand.
+- Live MQTT delivery to the platform.
+- Grafana dashboard integration.
+- Interactive What-if controls.
 
 ## Data and Assumptions
 
-<!--
-- Synthetic and real data.
-- Sources of parameters: equipment data sheets, reference literature, industrial safety regulations, datasets.
-- Datasets: source, license, how they are provided (in the repository or downloaded per the README).
-Confidential data of organizations and personal data are prohibited.
--->
+All measurements are synthetic and generated using Python.
+
+Dataset: `oilguard_data.csv`.
+
+Generator: `oilguard_simulator.py`.
+
+The dataset contains:
+- Three production wells.
+- 120 simulated minutes.
+- 360 telemetry records.
+- Pressure in bar.
+- Temperature in degrees Celsius.
+- Vibration in mm/s.
+- NORMAL and DANGER status labels.
+
+A high-risk incident is simulated for WELL-02 during minutes 70 through 90.
+
+The random seed is 42, making the generated dataset reproducible.
+
+Safety thresholds are illustrative engineering assumptions:
+- Pressure > 80 bar.
+- Temperature > 90 C.
+- Vibration > 7 mm/s.
+
+These values are not validated against a specific real-world facility.
+
+No confidential industrial data or personal information is used.
 
 ## Mine visualization
 
-<!-- Address on the Stand, dashboard or scene; what it shows. -->
+OilGuard AI currently provides a local pressure monitoring chart.
+
+Visualization file: `oilguard_chart.png`.
+
+The chart displays:
+- Pressure measurements for WELL-02 over 120 simulated minutes.
+- A red dashed line marking the 80 bar warning threshold.
+- A highlighted abnormal operating period between minutes 70 and 90.
+
+The chart is generated using `oilguard_chart.py`.
+
+OpenEgiz Grafana dashboard integration is not yet completed.
+There is currently no verified Stand URL for the OilGuard AI visualization.
 
 ## Limitations
+
+- All sensor measurements are synthetic.
+- The current model represents three wells and one parent oil field.
+- Pressure, temperature and vibration are simulated independently.
+- The model does not yet calculate physical fluid flow or reservoir dynamics.
+- Detection uses fixed thresholds rather than a trained machine learning model.
+- The high-pressure incident is predefined rather than controlled interactively.
+- Live OpenEgiz deployment and Grafana visualization remain unverified.
+- The model is a demonstration and must not be used for real industrial safety decisions.
 
 ## Presentation
 
