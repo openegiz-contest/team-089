@@ -6,13 +6,13 @@
 ## Concept
 
 
-**Enterprise:** OilGuard AI — a digital twin of a fictional onshore oil production field inspired by oil-producing facilities in western Kazakhstan. The model focuses on production wells, pumping equipment, pipelines, storage tanks and industrial safety monitoring.
+**Enterprise:** OilGuard AI — a digital twin of a fictional onshore oil production field inspired by oil-producing facilities in western Kazakhstan. The implemented model focuses on three production wells and their pressure, temperature and vibration measurements.
 
 **Users:** Oil field operators, production engineers, maintenance teams and industrial safety specialists.
 
-**Decision:** The digital twin helps operators decide when to reduce production, stop potentially dangerous equipment, inspect a pipeline or schedule preventive maintenance. It identifies abnormal pressure, temperature, vibration and flow conditions, estimates operational risk and compares possible corrective actions.
+**Decision:** The digital twin helps operators decide when to reduce production, stop potentially dangerous equipment, inspect a pipeline or schedule preventive maintenance. The current prototype detects abnormal pressure, temperature and vibration using fixed thresholds. Operational risk prediction and corrective-action comparison are future development goals.
 
-**Why this choice:** Oil and gas production involves interconnected equipment where failures may cause environmental damage, production losses and safety incidents. A digital twin makes these relationships visible and allows operators to test emergency scenarios without endangering real equipment. OilGuard AI combines simulation, operational monitoring and explainable risk assessment to support safer decisions.
+**Why this choice:** Oil and gas production involves interconnected equipment where failures may cause environmental damage, production losses and safety incidents. A digital twin makes these relationships visible and allows operators to test emergency scenarios without endangering real equipment. The current OilGuard AI prototype combines synthetic telemetry simulation, threshold-based safety detection and local visualization.
 
 **Real or fictional:** The field is fictional and inspired by onshore oil production facilities in Kazakhstan, including the general operating characteristics of mature oil fields in the Mangystau region. All initial measurements and operating conditions are synthetic. Numerical parameters will be documented as engineering assumptions or supported by publicly available technical references where possible. The project does not claim access to confidential field data.
 ## Team
@@ -140,7 +140,7 @@ There is currently no verified Stand URL for the OilGuard AI visualization.
 
 ## Presentation
 
-`presentation.pdf` in the repository root. Video (optional): <link>
+`presentation.pdf` is available in the repository root. No video submitted.
 
 ---
 
