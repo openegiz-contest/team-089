@@ -1,0 +1,125 @@
+{
+  "org.openegiz.oilguard:oilfield-01": {
+    "policyId": "default:basic_policy",
+    "attributes": {
+      "name": "OilGuard AI Oil Field",
+      "_isType": false,
+      "kind": "oilfield"
+    },
+    "features": {
+      "status": {
+        "properties": {
+          "value": "NORMAL"
+        }
+      },
+      "active_wells": {
+        "properties": {
+          "value": 3,
+          "unit": "wells"
+        }
+      }
+    }
+  },
+  "org.openegiz.oilguard:WELL-01": {
+    "policyId": "default:basic_policy",
+    "attributes": {
+      "name": "WELL-01",
+      "_isType": false,
+      "_parents": "org.openegiz.oilguard:oilfield-01",
+      "kind": "oil-well"
+    },
+    "features": {
+      "pressure": {
+        "properties": {
+          "value": 0,
+          "unit": "bar"
+        }
+      },
+      "temperature": {
+        "properties": {
+          "value": 0,
+          "unit": "C"
+        }
+      },
+      "vibration": {
+        "properties": {
+          "value": 0,
+          "unit": "mm/s"
+        }
+      },
+      "status": {
+        "properties": {
+          "value": "NORMAL"
+        }
+      }
+    }
+  },
+  "org.openegiz.oilguard:WELL-02": {
+    "policyId": "default:basic_policy",
+    "attributes": {
+      "name": "WELL-02",
+      "_isType": false,
+      "_parents": "org.openegiz.oilguard:oilfield-01",
+      "kind": "oil-well"
+    },
+    "features": {
+      "pressure": {
+        "properties": {
+          "value": 0,
+          "unit": "bar"
+        }
+      },
+      "temperature": {
+        "properties": {
+          "value": 0,
+          "unit": "C"
+        }
+      },
+      "vibration": {
+        "properties": {
+          "value": 0,
+          "unit": "mm/s"
+        }
+      },
+      "status": {
+        "properties": {
+          "value": "NORMAL"
+        }
+      }
+    }
+  },
+  "org.openegiz.oilguard:WELL-03": {
+    "policyId": "default:basic_policy",
+    "attributes": {
+      "name": "WELL-03",
+      "_isType": false,
+      "_parents": "org.openegiz.oilguard:oilfield-01",
+      "kind": "oil-well"
+    },
+    "features": {
+      "pressure": {
+        "properties": {
+          "value": 0,
+          "unit": "bar"
+        }
+      },
+      "temperature": {
+        "properties": {
+          "value": 0,
+          "unit": "C"
+        }
+      },
+      "vibration": {
+        "properties": {
+          "value": 0,
+          "unit": "mm/s"
+        }
+      },
+      "status": {
+        "properties": {
+          "value": "NORMAL"
+        }
+      }
+    }
+  }
+}
