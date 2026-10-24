@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OilGuard AI — Digital Oilfield</title>
+
+<style>
+:root {
+  --bg:#071321;
+  --panel:#102238;
+  --border:#29435b;
+  --cyan:#4adfff;
+  --green:#48e0a5;
+  --red:#ff5267;
+  --text:#edf7ff;
+}
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:22px 35px;
+  background:#102035;
+  border-bottom:1px solid var(--border);
+}
+header h1 { margin:0; color:var(--cyan); }
+header p { margin:5px 0 0; color:#91aabe; }
+.live { color:var(--green); font-weight:bold; }
+
+main { max-width:1450px; margin:auto; padding:25px; }
+
+h2 { margin-top:0; }
+
+.toolbar {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+button {
+  border:0;
+  border-radius:9px;
+  padding:13px 18px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+.alert-btn { background:var(--red); color:white; }
+.reset-btn { background:var(--green); color:#06261c; }
+.pause-btn { background:#29465e; color:white; }
+
+#message {
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+  background:#123e36;
+  color:#8dffce;
+  font-weight:bold;
+}
+#message.danger {
+  background:#56202c;
+  color:#ffb4be;
+  animation:flash 1s infinite alternate;
+}
+@keyframes flash {
+  from { opacity:1; }
+  to { opacity:.65; }
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.card, .panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+}
+.card.danger {
+  border-color:var(--red);
+  box-shadow:0 0 22px #ff526733;
+}
+.card-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.card-head h2 { margin:0; font-size:20px; }
+.status {
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  background:#185445;
+  color:#82ffd0;
+}
+.danger .status {
+  background:#712737;
+  color:#ffc1c8;
+}
+
+.scene {
+  position:relative;
+  height:265px;
+  margin:18px 0;
+  overflow:hidden;
+  border-radius:10px;
+  background:linear-gradient(
+    #163249 0%,
+    #26455b 65%,
+    #534637 65%,
+    #342d28 100%
+  );
+}
+.scene:before {
+  content:"";
+  position:absolute;
+  top:22px;
+  right:25px;
+  width:45px;
+  height:45px;
+  background:#ffcb77;
+  border-radius:50%;
+  opacity:.8;
+  box-shadow:0 0 35px #ffc76d55;
+}
+.scene svg {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.ground {
+  fill:#463a31;
+}
+.machine-steel {
+  fill:#91aabb;
+  stroke:#c4d4dc;
+  stroke-width:2;
+}
+.machine-yellow {
+  fill:#e6a43d;
+  stroke:#ffd18a;
+  stroke-width:2;
+}
+.machine-dark {
+  fill:#35495b;
+  stroke:#9fb9c7;
+  stroke-width:2;
+}
+
+/* Арқалық негізгі тірек айналасында тербеледі */
+.rocker {
+  transform-box:view-box;
+  transform-origin:190px 101px;
+  animation:rock 3s ease-in-out infinite alternate;
+}
+@keyframes rock {
+  from { transform:rotate(-11deg); }
+  to { transform:rotate(11deg); }
+}
+
+/* Штанганың қозғалысы */
+.rod {
+  animation:rodMove 3s ease-in-out infinite alternate;
+}
+@keyframes rodMove {
+  from { transform:translateY(-16px); }
+  to { transform:translateY(16px); }
+}
+
+/* Қозғалтқыштың қарсы салмағы */
+.crank {
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:spin 3s linear infinite;
+}
+@keyframes spin {
+  to { transform:rotate(360deg); }
+}
+
+.pipe-flow {
+  stroke:#56e9ff;
+  stroke-width:5;
+  stroke-dasharray:13 12;
+  animation:oilFlow .8s linear infinite;
+}
+@keyframes oilFlow {
+  to { stroke-dashoffset:-25; }
+}
+
+.paused .rocker,
+.paused .rod,
+.paused .crank,
+.paused .pipe-flow {
+  animation-play-state:paused;
+}
+
+.metric {
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #29435b;
+}
+.metric strong { color:#73eaff; }
+.danger .metric strong { color:#ffb0b8; }
+
+.panel { margin-top:22px; }
+canvas { display:block; width:100%; height:250px; }
+.note { color:#95aabe; font-size:13px; line-height:1.6; }
+footer {
+  padding:24px;
+  text-align:center;
+  color:#8299aa;
+}
+
+@media(max-width:1050px) {
+  .cards { grid-template-columns:1fr; }
+  header { padding:18px; }
+  main { padding:15px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>🛢 OilGuard AI</h1>
+    <p>Digital Oilfield Safety Monitoring</p>
+  </div>
+  <div class="live">● LIVE SIMULATION</div>
+</header>
+
+<main>
+  <h2>Мұнай кен орнының цифрлық егізі</h2>
+  <p class="note">
+    3 ұңғыма · Станок-качалка анимациясы ·
+    Синтетикалық телеметрия · Қауіпсіздік мониторингі
+  </p>
+
+  <div class="toolbar">
+    <button class="alert-btn" onclick="setDanger(true)">
+      ⚠ WELL-02 апатын модельдеу
+    </button>
+    <button class="reset-btn" onclick="setDanger(false)">
+      ✓ Қалыпты режим
+    </button>
+    <button class="pause-btn" onclick="togglePause()" id="pauseButton">
+      ⏸ Анимацияны тоқтату
+    </button>
+  </div>
+
+  <div id="message">
+    ✓ Барлық ұңғымалар қалыпты жұмыс істеп тұр
+  </div>
+
+  <section class="cards" id="wells"></section>
+
+  <section class="panel">
+    <h2>📈 WELL-02 — қысым мониторингі</h2>
+    <canvas id="chart"></canvas>
+    <p class="note">
+      Қызыл үзік сызық — 80 bar қауіптілік шегі.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>🧠 OilGuard AI — қауіпсіздік талдауы</h2>
+    <p id="analysis">
+      Қысым, температура және діріл бақылануда.
+    </p>
+    <p class="note">
+      Қауіптілік шектері демонстрациялық мақсатта берілген.
+      Бұл өндірістік жабдықты басқармайтын симуляциялық интерфейс.
+    </p>
+  </section>
+</main>
+
+<footer>
+  OilGuard AI © 2026 · OpenEgiz Digital Twin Project
+</footer>
+
+<script>
+const wells = [
+  {id:"WELL-01", p:55, t:62, v:2.3},
+  {id:"WELL-02", p:59, t:68, v:3.1},
+  {id:"WELL-03", p:51, t:59, v:2.0}
+];
+
+let danger = false;
+let paused = false;
+let history = Array(55).fill(59);
+
+function machineSVG() {
+  return `
+  <svg viewBox="0 0 380 260" aria-label="Мұнай станок-качалкасы">
+    <rect x="0" y="175" width="380" height="85" class="ground"/>
+
+    <!-- Ұңғыма сағасы -->
+    <rect x="55" y="177" width="38" height="29"
+          class="machine-dark"/>
+    <rect x="49" y="171" width="50" height="8"
+          class="machine-steel"/>
+
+    <!-- Бетон негіз -->
+    <rect x="140" y="182" width="135" height="18"
+          fill="#7f8d91"/>
+
+    <!-- Негізгі тірек -->
+    <polygon points="190,96 146,181 234,181"
+             class="machine-steel"/>
+    <polygon points="190,113 165,173 215,173"
+             fill="#1e3549"/>
+
+    <!-- Арқалық пен ат басы -->
+    <g class="rocker">
+      <rect x="79" y="91" width="222" height="18"
+            rx="4" class="machine-yellow"/>
+
+      <path d="M80 91 Q48 91 48 117
+               L48 137 L70 137
+               L70 116 Q70 109 80 109 Z"
+            class="machine-yellow"/>
+
+      <circle cx="190" cy="101" r="12"
+              class="machine-dark"/>
+
+      <rect x="275" y="85" width="38" height="29"
+            rx="5" class="machine-yellow"/>
+    </g>
+
+    <!-- Жоғары-төмен қозғалатын штанга -->
+    <g class="rod">
+      <line x1="59" y1="133" x2="59" y2="184"
+            stroke="#e9f7ff" stroke-width="5"/>
+      <rect x="51" y="175" width="16" height="10"
+            class="machine-dark"/>
+    </g>
+
+    <!-- Редуктор -->
+    <rect x="238" y="153" width="62" height="30"
+          rx="5" class="machine-dark"/>
+
+    <!-- Айналатын қарсы салмақ -->
+    <g class="crank">
+      <circle cx="267" cy="153" r="20"
+              fill="#d59639" stroke="#ffd18a"
+              stroke-width="3"/>
+      <rect x="263" y="135" width="8" height="36"
+            fill="#33475a"/>
+      <circle cx="267" cy="153" r="5"
+              fill="#f1f7ff"/>
+    </g>
+
+    <!-- Электр қозғалтқыш -->
+    <rect x="308" y="161" width="39" height="22"
+          rx="5" class="machine-steel"/>
+    <rect x="316" y="155" width="23" height="7"
+          class="machine-dark"/>
+
+    <!-- Мұнай құбыры -->
+    <path d="M80 204 V221 H360"
+          fill="none"
+          stroke="#163e52"
+          stroke-width="16"
+          stroke-linejoin="round"/>
+
+    <path d="M80 204 V221 H360"
+          fill="none"
+          class="pipe-flow"
+          stroke-linejoin="round"/>
+
+    <text x="18" y="245"
+          fill="#b7d7e7"
+          font-size="11">
+      OIL FLOW →
+    </text>
+  </svg>`;
+}
+
+function random(min,max) {
+  return Math.random() * (max-min) + min;
+}
+
+function setDanger(value) {
+  danger = value;
+
+  const message = document.getElementById("message");
+  message.classList.toggle("danger", danger);
+
+  message.textContent = danger
+    ? "🚨 DANGER: WELL-02 — қауіпті қысым және діріл!"
+    : "✓ Барлық ұңғымалар қалыпты жұмыс істеп тұр";
+
+  document.getElementById("analysis").textContent = danger
+    ? "WELL-02: қысым 80 bar және діріл 7 mm/s шегінен асты. Жабдықты тексеру және операторға хабарлау ұсынылады."
+    : "Барлық датчиктер қалыпты диапазонда. Мониторинг жалғасуда.";
+
+  update();
+}
+
+function togglePause() {
+  paused = !paused;
+
+  document.querySelectorAll(".scene").forEach(scene => {
+    scene.classList.toggle("paused", paused);
+  });
+
+  document.getElementById("pauseButton").textContent = paused
+    ? "▶ Анимацияны жалғастыру"
+    : "⏸ Анимацияны тоқтату";
+}
+
+function update() {
+  const container = document.getElementById("wells");
+
+  container.innerHTML = wells.map((w,i) => {
+    const bad = danger && i===1;
+
+    const pressure = w.p + random(-2,2) + (bad ? 35 : 0);
+    const temp = w.t + random(-2,2) + (bad ? 25 : 0);
+    const vibration = w.v + random(-.25,.25) + (bad ? 5.4 : 0);
+
+    if(i===1) {
+      history.push(pressure);
+      if(history.length>55) history.shift();
+    }
+
+    return `
+      <article class="card ${bad ? "danger" : ""}">
+        <div class="card-head">
+          <h2>${w.id}</h2>
+          <span class="status">${bad ? "🚨 DANGER" : "● NORMAL"}</span>
+        </div>
+
+        <div class="scene ${paused ? "paused" : ""}">
+          ${machineSVG()}
+        </div>
+
+        <div class="metric">
+          <span>Қысым</span>
+          <strong>${pressure.toFixed(1)} bar</strong>
+        </div>
+
+        <div class="metric">
+          <span>Температура</span>
+          <strong>${temp.toFixed(1)} °C</strong>
+        </div>
+
+        <div class="metric">
+          <span>Діріл</span>
+          <strong>${vibration.toFixed(2)} mm/s</strong>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  drawChart();
+}
+
+function drawChart() {
+  const canvas = document.getElementById("chart");
+  const width = Math.max(canvas.clientWidth,300);
+  const height = 250;
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = width*ratio;
+  canvas.height = height*ratio;
+
+  const ctx = canvas.getContext("2d");
+  ctx.scale(ratio,ratio);
+
+  const left=46, right=width-15;
+  const top=15, bottom=height-30;
+
+  function y(value) {
+    return bottom-(value/110)*(bottom-top);
+  }
+
+  ctx.clearRect(0,0,width,height);
+  ctx.font="12px Arial";
+  ctx.strokeStyle="#29445d";
+  ctx.fillStyle="#9cb3c7";
+  ctx.lineWidth=1;
+
+  [0,20,40,60,80,100].forEach(v=>{
+    ctx.beginPath();
+    ctx.moveTo(left,y(v));
+    ctx.lineTo(right,y(v));
+    ctx.stroke();
+    ctx.fillText(String(v),8,y(v)+4);
+  });
+
+  ctx.strokeStyle="#ff5267";
+  ctx.setLineDash([7,5]);
+  ctx.beginPath();
+  ctx.moveTo(left,y(80));
+  ctx.lineTo(right,y(80));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.strokeStyle="#4de4ff";
+  ctx.lineWidth=3;
+  ctx.beginPath();
+
+  history.forEach((value,index)=>{
+    const x=left+index/(history.length-1)*(right-left);
+    if(index===0) ctx.moveTo(x,y(value));
+    else ctx.lineTo(x,y(value));
+  });
+
+  ctx.stroke();
+}
+
+update();
+setInterval(()=>{
+  if(!paused) update();
+},1000);
+
+window.addEventListener("resize",drawChart);
+</script>
+
+</body>
+</html>
