@@ -21,7 +21,7 @@
 
 | GitHub |
 |---|
-| эрасылтургенгул |
+| erasylturgengul |
 
 ## Mine
 
@@ -145,3 +145,28 @@ There is currently no verified Stand URL for the OilGuard AI visualization.
 ---
 
 Platform: OpenEgiz v1.0.4.
+
+## OilGuard AI Platform Integration
+
+OilGuard AI includes a Docker Compose integration for OpenEgiz.
+
+- Digital twins: three oil wells and one parent oil field.
+- MQTT simulator: continuously publishes synthetic telemetry.
+- Safety monitoring: detects abnormal pressure, temperature and vibration.
+- Grafana dashboard: three panels for WELL-02 measurements.
+- What-if scenario: simulated abnormal operating conditions at WELL-02.
+
+### Implementation files
+
+- `examples/oilguard/compose.yml`
+- `examples/oilguard/Dockerfile`
+- `examples/oilguard/setup_twins.py`
+- `examples/oilguard/twins.json`
+- `examples/oilguard/oilguard_mqtt.py`
+- `examples/oilguard/dashboard.json`
+
+### Verification status
+
+Python syntax, MQTT dry-run and Docker Compose configuration have been verified locally.
+
+Full deployment on a running OpenEgiz Stand, live MQTT delivery and Grafana data visualization have not yet been verified.
